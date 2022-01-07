@@ -1,0 +1,3 @@
+/**
+ * wechat shared and lifecycle.
+ */
