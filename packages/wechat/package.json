@@ -1,0 +1,10 @@
+{
+  "name": "@m/wechat",
+  "version": "0.0.0",
+  "license": "MIT",
+  "author": "kanno",
+  "dependencies": {
+    "@vue/reactivity": "^3.2.26",
+    "@types/wechat-miniprogram": "^3.4.0"
+  }
+}

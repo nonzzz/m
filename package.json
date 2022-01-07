@@ -1,0 +1,19 @@
+{
+  "name": "m",
+  "version": "0.0.0",
+  "private": "true",
+  "description": "a mini program run time parser.",
+  "main": "index.js",
+  "license": "MIT",
+  "workspaces": [
+    "packages/*"
+  ],
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "kanno",
+  "devDependencies": {
+    "typescript": "^4.5.4"
+  }
+}
