@@ -1,11 +1,11 @@
 {
-"compilerOptions": {
+  "compilerOptions": {
     "target": "ESNext",
-    "lib":["ESNext"],
+    "lib": ["ESNext"],
     "esModuleInterop": true,
     "allowJs": true,
     "importHelpers": true,
     "module": "ESNext",
     "moduleResolution": "Node"
-    }
+  }
 }
