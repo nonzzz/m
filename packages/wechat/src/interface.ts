@@ -1,6 +1,13 @@
 import type { EffectScope } from '@vue/reactivity'
 
+export type Bindings = Record<string, any> | void
+
 export type AppInstance = Record<string, any> | void
+
+export type AppSetup = (
+  this: void,
+  options: WechatMiniprogram.App.LaunchShowOption
+) => Bindings
 
 export type ComponentInstance = WechatMiniprogram.Component.InstanceProperties &
   WechatMiniprogram.Component.InstanceMethods<Record<string, unknown>> & {
@@ -15,7 +22,8 @@ export type PageInstance = WechatMiniprogram.Page.InstanceProperties &
     __scope__: EffectScope
   }
 
-export type AppOptions<T extends WechatMiniprogram.IAnyObject> =
-  {} & WechatMiniprogram.App.Options<T>
+export type AppOptions<T extends WechatMiniprogram.IAnyObject> = {
+  setup?: AppSetup
+} & WechatMiniprogram.App.Options<T>
 
 export type Options = Record<string, any>
