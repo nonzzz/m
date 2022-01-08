@@ -1,11 +1,13 @@
 {
   "compilerOptions": {
+    "outDir": "./",
     "target": "ESNext",
     "lib": ["ESNext"],
-    "esModuleInterop": true,
     "allowJs": true,
+    "esModuleInterop": true,
     "importHelpers": true,
     "module": "ESNext",
     "moduleResolution": "Node"
-  }
+  },
+  "exclude": ["example"]
 }
