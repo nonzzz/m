@@ -1,11 +1,9 @@
 {
   "extends": "../../tsconfig.json",
   "compilerOptions": {
-    "baseUrl": ".",
     "outDir": "./lib",
     "declaration": true,
-    "noImplicitAny": true,
+    "resolveJsonModule": true,
     "declarationDir": "./types"
-  },
-  "exclude": ["types", "lib"]
+  }
 }

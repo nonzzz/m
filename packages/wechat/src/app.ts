@@ -1,6 +1,6 @@
 import type { AppInstance, AppOptions } from './interface'
-import { APP_LIFE_CYCLE, createAppLifeCycle } from './lifecycle'
-import type { AppLifeCycle, AppLifeCycleOptions } from './lifecycle'
+import { APP_LIFE_CYCLE } from './lifecycle'
+import type { AppLifeCycleOptions } from './lifecycle'
 import { setCurrentApp, unshiftCurrentApp } from './instance'
 
 /**
@@ -36,7 +36,7 @@ import { setCurrentApp, unshiftCurrentApp } from './instance'
  */
 
 export function createApp<T extends WechatMiniprogram.IAnyObject>(
-  opt: AppOptions<T>,
+  opt: AppOptions<T>
 ): void {
   if (!opt.setup) return
   const { setup } = opt
@@ -47,13 +47,15 @@ export function createApp<T extends WechatMiniprogram.IAnyObject>(
 
   options[APP_LIFE_CYCLE.ON_LAUNCH] = function (
     this: AppInstance,
-    options: WechatMiniprogram.App.LaunchShowOption,
+    options: WechatMiniprogram.App.LaunchShowOption
   ) {
     setCurrentApp(this)
-    // user will return as glboal variable.
+    // when user retrun data variable wil binding as globaldata.
     const bindings = setup(options)
     if (bindings) {
-      Object.keys(bindings).forEach((key) => (this[key] = bindings[key]))
+      Object.keys(bindings).forEach(
+        (key) => ((this as Record<string, any>)[key] = bindings[key])
+      )
     }
     unshiftCurrentApp()
   }

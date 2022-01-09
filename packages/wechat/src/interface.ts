@@ -27,3 +27,9 @@ export type AppOptions<T extends WechatMiniprogram.IAnyObject> = {
 } & WechatMiniprogram.App.Options<T>
 
 export type Options = Record<string, any>
+
+export type ValueOf<T> = T[keyof T]
+
+export type RecordPartial<T extends keyof any, K> = {
+  [P in T]?: K
+}

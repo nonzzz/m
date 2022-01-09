@@ -7,7 +7,15 @@
  *
  */
 
-import { AppInstance } from './interface'
+import { currentApp } from './instance'
+import {
+  AppInstance,
+  ComponentInstance,
+  PageInstance,
+  RecordPartial,
+  ValueOf
+} from './interface'
+import { bindHideField } from './shared'
 
 /**
  * wechat Page description docs, details see:
@@ -22,8 +30,8 @@ export const APP_LIFE_CYCLE = {
   ON_ERROR: 'onError',
   ON_PAGE_NOT_FOUND: 'onPageNotFound',
   ON_UNHANDLED_REJECTION: 'onUnhandledRejection',
-  ON_THEME_CHANGE: 'onThemeChange',
-}
+  ON_THEME_CHANGE: 'onThemeChange'
+} as const
 
 export const PAGE_LIFE_CYCELE = {
   ON_LOAD: 'onLoad',
@@ -38,19 +46,10 @@ export const PAGE_LIFE_CYCELE = {
   ON_SHARE_TIMELINE: 'onShareTimeline',
   ON_ADD_TO_FAVORITES: 'onAddToFavorites',
   ON_RESIZE: 'onResize',
-  ON_TAB_ITEM_TAP: 'onTabItemTap',
-}
+  ON_TAB_ITEM_TAP: 'onTabItemTap'
+} as const
 
-export type AppLifeCycle = keyof typeof APP_LIFE_CYCLE
+export type AppLifeCycle = ValueOf<typeof APP_LIFE_CYCLE>
 
-export type AppLifeCycleOptions = Partial<Record<AppLifeCycle, any>>
+export type AppLifeCycleOptions = RecordPartial<AppLifeCycle, any>
 
-export function createAppLifeCycle(
-  options: AppLifeCycleOptions,
-  lifecycle: AppLifeCycle
-) {
-  return function (this: AppInstance, ...args: any[]) {
-    // const hooks = ths
-    console.log(this)
-  }
-}

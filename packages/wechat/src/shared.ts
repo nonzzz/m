@@ -6,3 +6,5 @@ export const { isArray } = Array
 
 // eslint-disable-next-line @typescript-eslint/ban-types
 export const isFn = (val: unknown): val is Function => typeof val === 'function'
+
+export const bindHideField = (name: string): string => `__${name}__`
