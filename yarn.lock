@@ -392,6 +392,11 @@ eslint-config-kagura@^1.0.3:
   resolved "https://registry.npmmirror.com/eslint-config-kagura/download/eslint-config-kagura-1.0.3.tgz#3a45aa8054a8e1772237e98fac42119e2663d7de"
   integrity sha1-OkWqgFSo4XciN+mPrEIRniZj194=
 
+eslint-config-prettier@^8.3.0:
+  version "8.3.0"
+  resolved "https://registry.npmmirror.com/eslint-config-prettier/download/eslint-config-prettier-8.3.0.tgz#f7471b20b6fe8a9a9254cc684454202886a2dd7a"
+  integrity sha1-90cbILb+ipqSVMxoRFQgKIai3Xo=
+
 eslint-scope@^5.1.1:
   version "5.1.1"
   resolved "https://registry.npmmirror.com/eslint-scope/download/eslint-scope-5.1.1.tgz?cache=0&sync_timestamp=1637465854389&other_urls=https%3A%2F%2Fregistry.npmmirror.com%2Feslint-scope%2Fdownload%2Feslint-scope-5.1.1.tgz#e786e59a66cb92b3f6c1fb0d508aab174848f48c"

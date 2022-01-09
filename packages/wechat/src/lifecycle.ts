@@ -7,14 +7,8 @@
  *
  */
 
-import { currentApp } from './instance'
-import {
-  AppInstance,
-  ComponentInstance,
-  PageInstance,
-  RecordPartial,
-  ValueOf
-} from './interface'
+import { currentApp, getCurrentInstance } from './instance'
+import type { AppInstance, ComponentInstance, PageInstance, RecordPartial, ValueOf } from './interface'
 import { bindHideField } from './shared'
 
 /**
@@ -53,9 +47,13 @@ export type AppLifeCycle = ValueOf<typeof APP_LIFE_CYCLE>
 
 export type AppLifeCycleOptions = RecordPartial<AppLifeCycle, any>
 
+export type PageLifeCycle = ValueOf<typeof PAGE_LIFE_CYCELE>
+
+export type PageLifeCycleOptions = RecordPartial<PageLifeCycle, any>
+
 export function injectHook(
   currentInstance: AppInstance | PageInstance | ComponentInstance,
-  lifecycle: AppLifeCycle,
+  lifecycle: AppLifeCycle | PageLifeCycle,
   // eslint-disable-next-line @typescript-eslint/ban-types
   hook: Function
 ): void {
@@ -67,9 +65,7 @@ export function injectHook(
 }
 
 // eslint-disable-next-line @typescript-eslint/ban-types
-export function creteAppHook<T extends Function = () => unknown>(
-  lifecycle: AppLifeCycle
-) {
+export function creteAppHook<T extends Function = () => unknown>(lifecycle: AppLifeCycle) {
   return (hook: T): void => {
     if (currentApp) {
       injectHook(currentApp, lifecycle, hook)
@@ -86,6 +82,16 @@ export function createAppLifeCycle(lifecycle: AppLifeCycle) {
   }
 }
 
+// eslint-disable-next-line @typescript-eslint/ban-types
+export function createPageHook<T extends Function = () => unknown>(lifeCycle: PageLifeCycle) {
+  return (hook: T): void => {
+    const currentInstance = getCurrentInstance()
+    if (currentInstance) {
+      injectHook(currentInstance, lifeCycle, hook)
+    }
+  }
+}
+
 /**
  * we decide support those hook. in high version,
  * user can use wx.themeChange to do.
@@ -96,3 +102,31 @@ export const onAppShow = creteAppHook(APP_LIFE_CYCLE.ON_SHOW)
 export const onAppHide = creteAppHook(APP_LIFE_CYCLE.ON_HIDE)
 
 export const onAppError = creteAppHook(APP_LIFE_CYCLE.ON_ERROR)
+
+/**
+ * pageHook
+ */
+
+export const onShow = createPageHook(PAGE_LIFE_CYCELE.ON_SHOW)
+
+export const onReady = createPageHook(PAGE_LIFE_CYCELE.ON_READY)
+
+export const onHide = createPageHook(PAGE_LIFE_CYCELE.ON_HIDE)
+
+export const onUnload = createPageHook(PAGE_LIFE_CYCELE.ON_UNLOAD)
+
+export const onPullDownRefresh = createPageHook(PAGE_LIFE_CYCELE.ON_PULL_DOWN_REFRESH)
+
+export const onReachBottom = createPageHook(PAGE_LIFE_CYCELE.ON_REACH_BOTTOM)
+
+export const onShareAppMessage = createPageHook(PAGE_LIFE_CYCELE.ON_SHARE_APP_MESSAGE)
+
+export const onShareTimeline = createPageHook(PAGE_LIFE_CYCELE.ON_SHARE_TIMELINE)
+
+export const onAddToFavorites = createPageHook(PAGE_LIFE_CYCELE.ON_ADD_TO_FAVORITES)
+
+export const onPageScroll = createPageHook(PAGE_LIFE_CYCELE.ON_PAGE_SCROLL)
+
+export const onResize = createPageHook(PAGE_LIFE_CYCELE.ON_RESIZE)
+
+export const onTabItemTap = createPageHook(PAGE_LIFE_CYCELE.ON_TAB_ITEM_TAP)

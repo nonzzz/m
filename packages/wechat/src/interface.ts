@@ -2,12 +2,35 @@ import type { EffectScope } from '@vue/reactivity'
 
 export type Bindings = Record<string, any> | void
 
+export type Query = Record<string, string | undefined>
+
 export type AppInstance = Record<string, any>
 
 export type AppSetup = (
   this: void,
   options: WechatMiniprogram.App.LaunchShowOption
 ) => Bindings
+
+export type PageContext = WechatMiniprogram.Page.InstanceProperties &
+  Omit<
+    WechatMiniprogram.Page.InstanceMethods<Record<string, any>>,
+    | 'setData'
+    | 'groupSetData'
+    | 'hasBehavior'
+    | 'triggerEvent'
+    | 'selectOwnerComponent'
+    | 'getRelationNodes'
+  >
+
+export type PageSetup = (
+  this: void,
+  query: Query,
+  context: PageContext
+) => Bindings
+
+export type PageOptions = {
+  setup?: PageSetup
+}
 
 export type ComponentInstance = WechatMiniprogram.Component.InstanceProperties &
   WechatMiniprogram.Component.InstanceMethods<Record<string, unknown>> & {

@@ -7,7 +7,7 @@ import type { AppInstance, ComponentInstance, PageInstance } from './interface'
 
 export let currentApp: AppInstance | null = null
 
-export const currentPage: PageInstance | null = null
+export let currentPage: PageInstance | null = null
 
 export const currentComponent: ComponentInstance | null = null
 
@@ -21,4 +21,12 @@ export function setCurrentApp(page: AppInstance): void {
 
 export function unshiftCurrentApp(): void {
   currentApp = null
+}
+
+export function setCurrentPage(page: PageInstance): void {
+  currentPage = page
+}
+
+export function unshiftCurrentPage(): void {
+  currentPage = null
 }
