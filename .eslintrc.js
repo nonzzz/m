@@ -3,11 +3,12 @@ module.exports = {
   env: {
     browser: true,
     es6: true,
-    node: true,
+    node: true
   },
   parser: '@typescript-eslint/parser',
   extends: ['plugin:@typescript-eslint/recommended', 'kagura'],
   rules: {
     '@typescript-eslint/no-explicit-any': 'off',
-  },
+    'comma-dangle': ['error', 'never']
+  }
 }
