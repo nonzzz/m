@@ -1,39 +1,7 @@
 import type { AppInstance, AppOptions } from './interface'
-import { APP_LIFE_CYCLE } from './lifecycle'
+import { APP_LIFE_CYCLE, createAppLifeCycle } from './lifecycle'
 import type { AppLifeCycleOptions } from './lifecycle'
 import { setCurrentApp, unshiftCurrentApp } from './instance'
-
-/**
- * createApp is a superset of weChat App in app.js
- * we expect user use it like vue composition api
- * as we know, define data in setup. we should bind
- * value at lunach time.
- *
- * globalData
- *
- * we dont allowed user entry globalDta, we will preset reactive val
- * Or you don't need reactive val, we also support.
- * support change like
- *
- * createApp({
- *  setup(){
- *   const userInfo = ref({})
- *   let userName = ''
- *
- *   onLauch(async(options)=>{
- *   const res = await fecthData()
- *    userInfo.name = res.name
- *    userName = res.name
- *  })
- *
- *  }
- * })
- *
- *
- * We allow you to use multiple lifecycle api like onLuach,
- * the will merged at compiler.
- *
- */
 
 export function createApp<T extends WechatMiniprogram.IAnyObject>(
   opt: AppOptions<T>
@@ -41,9 +9,6 @@ export function createApp<T extends WechatMiniprogram.IAnyObject>(
   if (!opt.setup) return
   const { setup } = opt
   const options: AppLifeCycleOptions = {}
-  // Object.keys(APP_LIFE_CYCLE).map((lifecycle: AppLifeCycle) =>
-  //   createLifeCycle(options, lifecycle)
-  // )
 
   options[APP_LIFE_CYCLE.ON_LAUNCH] = function (
     this: AppInstance,
@@ -53,12 +18,17 @@ export function createApp<T extends WechatMiniprogram.IAnyObject>(
     // when user retrun data variable wil binding as globaldata.
     const bindings = setup(options)
     if (bindings) {
-      Object.keys(bindings).forEach(
-        (key) => ((this as Record<string, any>)[key] = bindings[key])
-      )
+      Object.keys(bindings).forEach((key) => (this[key] = bindings[key]))
     }
     unshiftCurrentApp()
   }
+
+  Object.keys(APP_LIFE_CYCLE).forEach((lifecycle) => {
+    if (lifecycle === 'ON_LAUNCH') return
+    options[APP_LIFE_CYCLE[lifecycle]] = createAppLifeCycle(
+      APP_LIFE_CYCLE[lifecycle]
+    )
+  })
 
   App(options)
 }

@@ -53,3 +53,46 @@ export type AppLifeCycle = ValueOf<typeof APP_LIFE_CYCLE>
 
 export type AppLifeCycleOptions = RecordPartial<AppLifeCycle, any>
 
+export function injectHook(
+  currentInstance: AppInstance | PageInstance | ComponentInstance,
+  lifecycle: AppLifeCycle,
+  // eslint-disable-next-line @typescript-eslint/ban-types
+  hook: Function
+): void {
+  const hideFiled = bindHideField(lifecycle)
+  if (!currentInstance[hideFiled]) {
+    currentInstance[hideFiled] = []
+  }
+  currentInstance[hideFiled].push(hook)
+}
+
+// eslint-disable-next-line @typescript-eslint/ban-types
+export function creteAppHook<T extends Function = () => unknown>(
+  lifecycle: AppLifeCycle
+) {
+  return (hook: T): void => {
+    if (currentApp) {
+      injectHook(currentApp, lifecycle, hook)
+    }
+  }
+}
+
+export function createAppLifeCycle(lifecycle: AppLifeCycle) {
+  return function (this: AppInstance, ...args: any[]) {
+    const hooks = this[bindHideField(lifecycle)]
+    if (hooks) {
+      hooks.forEach((hook) => hook(...args))
+    }
+  }
+}
+
+/**
+ * we decide support those hook. in high version,
+ * user can use wx.themeChange to do.
+ */
+
+export const onAppShow = creteAppHook(APP_LIFE_CYCLE.ON_SHOW)
+
+export const onAppHide = creteAppHook(APP_LIFE_CYCLE.ON_HIDE)
+
+export const onAppError = creteAppHook(APP_LIFE_CYCLE.ON_ERROR)
